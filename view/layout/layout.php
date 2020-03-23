@@ -12,8 +12,8 @@
     <header>
       <nav>
           <ul>
-              <li><a href="<?= $view->path('home'); ?>">Home</a></li>
-              <li><a href="<?= $view->path('add'); ?>">Add New Subscriber</a></li>
+              <li><a href="<?= $view->path('home'); ?>">Accueil</a></li>
+              <li><a href="<?= $view->path('read'); ?>">Liste des abonnes</a></li>
           </ul>
       </nav>
     </header>
