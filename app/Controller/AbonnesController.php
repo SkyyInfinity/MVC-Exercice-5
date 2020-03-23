@@ -17,8 +17,8 @@ class AbonnesController extends Controller {
       $errors['email'] = $validation->emailValid($post['email']);
       $errors['age'] = $validation->textValid($post['age'], 'age', 1, 2);
       if($validation->IsValid($errors)) {
-        ArticleModel::insert($post);
-        $this->redirect('frontpage');
+        AbonnesModel::insert($post);
+        $this->redirect('home');
       }
     }
     $form = new Form($errors);
