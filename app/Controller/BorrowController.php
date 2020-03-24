@@ -5,14 +5,20 @@ use App\Service\Form;
 use App\Service\Validation;
 use App\Weblitzer\Controller;
 use App\Model\BorrowModel;
+use App\Model\AbonneModel;
+use App\Model\ProductModel;
 
 class BorrowController extends Controller {
   //METHODE READ
   public function read() {
     $borrows = BorrowModel::all();
+    $abonnes = AbonneModel::all();
+    $products = ProductModel::all();
     $count = BorrowModel::count();
     $this->render('app.borrow.read',array(
       'borrows' => $borrows,
+      'abonnes' => $abonnes,
+      'products' => $products,
       'count' => $count
     ));
   }
@@ -35,7 +41,7 @@ class BorrowController extends Controller {
     ));
   }
 
-  //METHODE DELETE
+  //METHODE HIDE
   public function hide($id){
     $borrow = $this->ifBorrowExistOr404($id);
     BorrowModel::hide($id);

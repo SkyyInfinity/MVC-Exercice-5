@@ -19,4 +19,5 @@ $routes = array(
   //BORROWS
   array('readborrow','borrow','read'),
   array('addborrow','borrow','add'),
+  array('hideborrow','borrow','hide',array('date_end')),
 );
