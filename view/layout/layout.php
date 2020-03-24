@@ -13,7 +13,8 @@
       <nav>
           <ul>
               <li><a href="<?= $view->path('home'); ?>">Accueil</a></li>
-              <li><a href="<?= $view->path('read'); ?>">Liste des abonnes</a></li>
+              <li><a href="<?= $view->path('readabonne'); ?>">Liste des abonnes</a></li>
+              <li><a href="<?= $view->path('readproduct'); ?>">Liste des produits</a></li>
           </ul>
       </nav>
     </header>

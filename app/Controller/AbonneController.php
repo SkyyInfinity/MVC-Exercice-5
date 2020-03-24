@@ -29,7 +29,7 @@ class AbonneController extends Controller {
       $errors['age'] = $validation->textValid($post['age'], 'age', 1, 2);
       if($validation->IsValid($errors)) {
         AbonneModel::insert($post);
-        $this->redirect('read');
+        $this->redirect('readabonne');
       }
     }
     $form = new Form($errors);
@@ -65,7 +65,7 @@ class AbonneController extends Controller {
       $errors['age'] = $validation->textValid($post['age'], 'age', 1, 2);
       if($validation->IsValid($errors)) {
         AbonneModel::update($id, $post);
-        $this->redirect('read');
+        $this->redirect('readabonne');
       }
     }
     $form = new Form($errors);
@@ -80,6 +80,6 @@ class AbonneController extends Controller {
     $abonne = AbonneModel::findById($id);
     if(empty($abonne)) { $this->Abort404(); }
     AbonneModel::delete($id);
-    $this->redirect('read');
+    $this->redirect('readabonne');
   }
 }
