@@ -11,32 +11,28 @@ use App\Model\ProductModel;
 class BorrowController extends Controller {
   //METHODE READ
   public function read() {
+    $errors = array();
     $borrows = BorrowModel::all();
     $abonnes = AbonneModel::all();
     $products = ProductModel::all();
-    $count = BorrowModel::count();
+    if(!empty($_POST['submitted'])) {
+      $post = $this->cleanXss($_POST);
+      $validation = new Validation();
+      $get_abonne = AbonneModel::findById($post['id_abonne']);
+      $get_product = ProductModel::findById($post['id_product']);
+      if(empty($get_abonne) || empty($get_product)) {
+        $error['id_abonne'] = 'Etrange';
+      }
+      if($validation->IsValid($errors)) {
+        BorrowModel::insert($post);
+        $this->redirect('readborrows');
+      }
+    }
+    $form = new Form($errors);
     $this->render('app.borrow.read',array(
       'borrows' => $borrows,
       'abonnes' => $abonnes,
       'products' => $products,
-      'count' => $count
-    ));
-  }
-
-  //METHODE ADD
-  public function add() {
-    $errors = array();
-    if(!empty($_POST['submitted'])) {
-      $post = $this->cleanXss($_POST);
-      $validation = new Validation();
-      $errors = $this->validationBorrow($validation, $errors, $post);
-      if($validation->IsValid($errors)) {
-        BorrowModel::insert($post);
-        $this->redirect('readborrow');
-      }
-    }
-    $form = new Form($errors);
-    $this->render('app.borrow.add', array(
       'form' => $form
     ));
   }
