@@ -16,4 +16,7 @@ $routes = array(
   array('detailproduct','product','detail',array('id')),
   array('updateproduct','product','update',array('id')),
   array('deleteproduct','product','delete',array('id')),
+  //BORROWS
+  array('readborrow','borrow','read'),
+  array('addborrow','borrow','add'),
 );
