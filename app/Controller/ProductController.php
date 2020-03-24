@@ -23,9 +23,7 @@ class ProductController extends Controller {
     if(!empty($_POST['submitted'])) {
       $post = $this->cleanXss($_POST);
       $validation = new Validation();
-      $errors['titre'] = $validation->textValid($post['titre'], 'titre', 3, 255);
-      $errors['reference'] = $validation->textValid($post['reference'], 'reference', 3, 255);
-      $errors['description'] = $validation->textValid($post['description'], 'description', 10, 2000);
+      $errors = $this->validationProduct($validation, $errors, $post);
       if($validation->IsValid($errors)) {
         ProductModel::insert($post);
         $this->redirect('readproduct');
@@ -39,10 +37,7 @@ class ProductController extends Controller {
 
   //METHODE DETAIL
   public function detail($id) {
-    $product = ProductModel::findById($id);
-    if(empty($product)) {
-      $this->Abort404();
-    }
+    $product = $this->ifProductExistOr404($id);
     $this->render('app.product.detail', array(
       'product' => $product
     ));
@@ -51,16 +46,11 @@ class ProductController extends Controller {
   //METHODE UPDATE
   public function update($id) {
     $errors = array();
-    $product = ProductModel::findById($id);
-    if(empty($product)) {
-      $this->Abort404();
-    }
+    $product = $this->ifProductExistOr404($id);
     if(!empty($_POST['submitted'])) {
       $post = $this->cleanXss($_POST);
       $validation = new Validation();
-      $errors['titre'] = $validation->textValid($post['titre'], 'titre', 3, 255);
-      $errors['reference'] = $validation->textValid($post['reference'], 'reference', 3, 255);
-      $errors['description'] = $validation->textValid($post['description'], 'description', 10, 2000);
+      $errors = $this->validationProduct($validation, $errors, $post);
       if($validation->IsValid($errors)) {
         ProductModel::update($id, $post);
         $this->redirect('readproduct');
@@ -75,9 +65,28 @@ class ProductController extends Controller {
 
   //METHODE DELETE
   public function delete($id){
-    $product = ProductModel::findById($id);
-    if(empty($product)) { $this->Abort404(); }
+    $product = $this->ifProductExistOr404($id);
     ProductModel::delete($id);
     $this->redirect('readproduct');
   }
+
+  //METHODE REDIRECTION 404
+  private function ifProductExistOr404($id)
+    {
+        $product = ProductModel::findById($id);
+        if(empty($product)) {
+            $this->Abort404();
+        }
+        return $product;
+
+    }
+
+    //METHODE VALIDATION
+    private function validationProduct($validation,$errors,$post)
+    {
+      $errors['titre'] = $validation->textValid($post['titre'], 'titre', 3, 255);
+      $errors['reference'] = $validation->textValid($post['reference'], 'reference', 3, 255);
+      $errors['description'] = $validation->textValid($post['description'], 'description', 10, 2000);
+      return $errors;
+    }
 }
