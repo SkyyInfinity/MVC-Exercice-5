@@ -12,7 +12,7 @@ class BorrowController extends Controller {
   //METHODE READ
   public function read() {
     $errors = array();
-    $borrows = BorrowModel::all();
+    $borrows =  BorrowModel::getAllStartWithProductAndAbonne();
     $abonnes = AbonneModel::all();
     $products = ProductModel::all();
     if(!empty($_POST['submitted'])) {
@@ -21,11 +21,11 @@ class BorrowController extends Controller {
       $get_abonne = AbonneModel::findById($post['id_abonne']);
       $get_product = ProductModel::findById($post['id_product']);
       if(empty($get_abonne) || empty($get_product)) {
-        $error['id_abonne'] = 'Etrange';
+          $errors['id_abonne'] = 'Etrange';
       }
       if($validation->IsValid($errors)) {
         BorrowModel::insert($post);
-        $this->redirect('readborrows');
+        $this->redirect('readborrow');
       }
     }
     $form = new Form($errors);

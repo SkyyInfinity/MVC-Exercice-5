@@ -18,5 +18,6 @@ $routes = array(
   array('deleteproduct','product','delete',array('id')),
   //BORROWS
   array('readborrow','borrow','read'),
-  array('hideborrow','borrow','hide',array('date_end')),
+  array('hideborrow','borrow','hide',array('id')),
+  array('borrow_historique','borrow','historique')
 );
